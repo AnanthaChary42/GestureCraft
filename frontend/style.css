@@ -1,0 +1,44 @@
+body {
+    margin: 0;
+    overflow: hidden;
+    background-color: #000;
+    /* Hologram style black background */
+    font-family: 'Courier New', Courier, monospace;
+}
+
+#scene-container {
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    /* Above the video */
+    pointer-events: none;
+    /* Let clicks pass through if needed */
+}
+
+#status {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    color: #0f0;
+    /* Matrix Green */
+    z-index: 2;
+    pointer-events: none;
+    font-size: 1.2rem;
+    text-shadow: 0 0 5px #0f0;
+}
+
+#video-feed {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    object-fit: fill;
+    /* Stretch to match coordinate system perfectly */
+    z-index: 0;
+    /* Behind the 3D scene */
+    opacity: 1.0;
+}

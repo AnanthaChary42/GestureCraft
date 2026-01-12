@@ -1,0 +1,31 @@
+Hologram/
+├── .gitignore
+├── backend/
+│   ├── camera/
+│   │   ├── __init__.py
+│   │   └── webcam.py
+│   ├── communication/
+│   │   ├── __init__.py
+│   │   └── socket_server.py
+│   ├── gestures/
+│   │   ├── __init__.py
+│   │   ├── gesture_manager.py
+│   │   ├── open_palm.py
+│   │   └── pinch.py
+│   ├── models/
+│   │   └── hand_landmarker.task
+│   ├── tracking/
+│   │   ├── __init__.py
+│   │   ├── hand_tracker.py
+│   │   └── landmarks.py
+│   ├── utils/
+│   │   ├── __init__.py
+│   │   └── helpers.py
+│   └── main.py
+├── frontend/
+│   ├── app.js
+│   ├── index.html
+│   ├── style.css
+│   └── trash_bin.png
+├── README.md
+└── requirements.txt
