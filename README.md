@@ -2,8 +2,6 @@
 
 **GestureCraft** is an interactive AR-like application that allows you to create and manipulate 3D holographic blocks using simple hand gestures. Built with Python (MediaPipe, OpenCV) and JavaScript (Three.js), it creates a seamless bridge between computer vision and 3D rendering.
 
-![Demo](frontend/trash_bin.png) <!-- Placeholder for a real demo screenshot -->
-
 ## 🌟 Features
 
 *   **Hand Tracking**: Real-time hand landmark detection using MediaPipe.
