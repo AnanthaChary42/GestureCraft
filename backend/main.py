@@ -1,11 +1,9 @@
 import cv2
 import base64
-from camera.webcam import Webcam
-from tracking.hand_tracker import HandTracker
-from tracking.landmarks import extract_landmarks
-from tracking.gesture_manager import GestureManager
-from communication.socket_server import SocketServer
-from utils.math_utils import distance
+from camera import Webcam
+from tracking import HandTracker, GestureManager, extract_landmarks
+from communication import SocketServer
+from utils import distance
 
 cam = Webcam()
 tracker = HandTracker()

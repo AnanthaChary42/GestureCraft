@@ -46,6 +46,20 @@ colors.forEach((col, idx) => {
 });
 scene.add(paletteGroup);
 
+// C. Size Selector (Cubes)
+const sizes = [0.5, 1.0, 1.5]; // Small, Medium, Large
+const sizeGroup = new THREE.Group();
+sizes.forEach((s, idx) => {
+    const geo = new THREE.BoxGeometry(s, s, s);
+    const mat = new THREE.MeshStandardMaterial({ color: 0x888888 }); // Grey default
+    const cube = new THREE.Mesh(geo, mat);
+    // Vertical column on the far right (x=6)
+    cube.position.set(6, 2 - (idx * 2.5), 0);
+    cube.userData = { isSizeSelector: true, size: s };
+    sizeGroup.add(cube);
+});
+scene.add(sizeGroup);
+
 // --- 3. Logic State ---
 const blocks = [];         // All created cubes
 let cursor = new THREE.Mesh(
@@ -58,17 +72,19 @@ let isPinching = false;
 let grabbedObject = null;
 let lastPinchState = false; // For detecting "Start" of pinch
 let currentSelectedColor = 0x00ff00; // Default color for new blocks
+let currentBlockSize = 1.0; // Default size
 
 // Helper: Create a Hologram Block
 function createBlock(x, y, z) {
     const group = new THREE.Group();
+    const s = currentBlockSize; // Use selected size
 
     // Solid Block
     const mat = new THREE.MeshBasicMaterial({
         color: currentSelectedColor, transparent: true, opacity: 1.0, // Opaque by default
         side: THREE.DoubleSide
     });
-    const geo = new THREE.BoxGeometry(1, 1, 1);
+    const geo = new THREE.BoxGeometry(s, s, s);
     const mesh = new THREE.Mesh(geo, mat);
 
     // Save for restoring after bin warning
@@ -87,7 +103,16 @@ function createBlock(x, y, z) {
 function animate() {
     requestAnimationFrame(animate);
 
-    // No rotation for blocks as per request
+    // Size Selector Visual Feedback
+    sizeGroup.children.forEach(c => {
+
+        // Visual Feedback for Selection
+        if (Math.abs(c.userData.size - currentBlockSize) < 0.1) {
+            c.material.color.setHex(currentSelectedColor); // Highlight active size with current color
+        } else {
+            c.material.color.setHex(0x888888); // Grey inactive
+        }
+    });
 
     renderer.render(scene, camera);
 }
@@ -129,6 +154,16 @@ socket.onmessage = (event) => {
             if (cursor.position.distanceTo(pPos) < 0.8) {
                 currentSelectedColor = p.userData.color;
                 cursor.material.color.setHex(currentSelectedColor); // Visual feedback
+            }
+        });
+
+        // 3. Size Selection (Hover)
+        sizeGroup.children.forEach(s => {
+            const sPos = new THREE.Vector3();
+            s.getWorldPosition(sPos);
+            // Size cubes are larger, so slightly larger trigger distance
+            if (cursor.position.distanceTo(sPos) < 1.0) {
+                currentBlockSize = s.userData.size;
             }
         });
 
